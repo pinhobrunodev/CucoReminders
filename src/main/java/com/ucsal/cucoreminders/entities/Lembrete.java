@@ -1,6 +1,8 @@
 package com.ucsal.cucoreminders.entities;
 
 
+import com.ucsal.cucoreminders.entities.User;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -14,13 +16,34 @@ public class Lembrete {
     private String titulo;
     @Column(columnDefinition = "TEXT")
     private String mensagem;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant criadoEm;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant atualizadoEm;
+
+    public Lembrete() {
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "time_schedule_id")
+    private TimeSchedule timeSchedule;
 
 
-    public  Lembrete(){}
+    public TimeSchedule getTimeSchedule() {
+        return timeSchedule;
+    }
+
+    public void setTimeSchedule(TimeSchedule timeSchedule) {
+        this.timeSchedule = timeSchedule;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -46,22 +69,6 @@ public class Lembrete {
         this.mensagem = mensagem;
     }
 
-    public Instant getCriadoEm() {
-        return criadoEm;
-    }
 
-    public Instant getAtualizadoEm() {
-        return atualizadoEm;
-    }
-
-    @PrePersist
-    public void PrePersist() {
-        criadoEm = Instant.now();
-    }
-
-    @PreUpdate
-    public void PreUpdate() {
-        atualizadoEm = Instant.now();
-    }
 
 }

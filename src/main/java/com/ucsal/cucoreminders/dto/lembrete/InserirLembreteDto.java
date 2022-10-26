@@ -1,12 +1,13 @@
-package com.ucsal.cucoreminders.dto;
+package com.ucsal.cucoreminders.dto.lembrete;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ucsal.cucoreminders.entities.Lembrete;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
-public class LembreteDTO {
+public class InserirLembreteDto {
 
 
     private Long id;
@@ -16,12 +17,14 @@ public class LembreteDTO {
     @NotBlank(message = "Campo requerido.")
     @Size(min = 5,max = 100,message = "O corpo da mensagem precisa estar entre 5 e 100 letras")
     private String mensagem;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime dataVencimento;
 
 
-    public LembreteDTO() {
+    public InserirLembreteDto() {
     }
 
-    public LembreteDTO(Lembrete entity) {
+    public InserirLembreteDto(Lembrete entity) {
         id = entity.getId();
         titulo = entity.getTitulo();
         mensagem = entity.getMensagem();
@@ -49,5 +52,13 @@ public class LembreteDTO {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public LocalDateTime getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(LocalDateTime dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 }

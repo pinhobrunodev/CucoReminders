@@ -1,6 +1,8 @@
 package com.ucsal.cucoreminders.controllers.exceptions;
 
+import com.ucsal.cucoreminders.services.exceptions.ForbiddenException;
 import com.ucsal.cucoreminders.services.exceptions.ResourceNotFoundException;
+import com.ucsal.cucoreminders.services.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -43,4 +45,19 @@ public class ControllerExceptionHandler {
     }
 
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<OAuthCustomError> unauthorized (UnauthorizedException e){
+        OAuthCustomError error = new OAuthCustomError();
+        error.setError("Unauthorized");
+        error.setErrorDescription(e.getMessage());
+        return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<OAuthCustomError> forbidden (ForbiddenException e){
+        OAuthCustomError error = new OAuthCustomError();
+        error.setError("Access Denied");
+        error.setErrorDescription(e.getMessage());
+        return  ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
 }
