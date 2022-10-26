@@ -1,6 +1,7 @@
 package com.ucsal.cucoreminders.controllers.exceptions;
 
 import com.ucsal.cucoreminders.services.exceptions.ForbiddenException;
+import com.ucsal.cucoreminders.services.exceptions.NameAlreadyExistsException;
 import com.ucsal.cucoreminders.services.exceptions.ResourceNotFoundException;
 import com.ucsal.cucoreminders.services.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class ControllerExceptionHandler {
         error.setMoment(Instant.now());
         error.setStatus(status.value());
         error.setMessage(e.getMessage());
-        error.setError("Resource not found");
+        error.setError("Recurso não encontrado");
         error.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
@@ -44,6 +45,17 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
+    @ExceptionHandler(NameAlreadyExistsException.class)
+    protected ResponseEntity<StandardError> nameAlreadyExists(NameAlreadyExistsException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        StandardError error = new StandardError();
+        error.setMoment(Instant.now());
+        error.setStatus(status.value());
+        error.setMessage(e.getMessage());
+        error.setError("Nome já existe");
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<OAuthCustomError> unauthorized (UnauthorizedException e){
