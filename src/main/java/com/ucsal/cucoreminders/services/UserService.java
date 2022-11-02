@@ -5,6 +5,7 @@ import com.ucsal.cucoreminders.entities.Role;
 import com.ucsal.cucoreminders.entities.User;
 import com.ucsal.cucoreminders.repositories.RoleRepository;
 import com.ucsal.cucoreminders.repositories.UserRepository;
+import com.ucsal.cucoreminders.services.exceptions.NameAlreadyExistsException;
 import com.ucsal.cucoreminders.services.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void registrarUsuario(UserDTO userDTO) {
+        if (userRepository.findByFullName(userDTO.getFullName()) != null){
+            throw  new NameAlreadyExistsException("O nome "+userDTO.getFullName()+", já está cadastrado...tente novamente!");
+        }
         var userEntity = new User();
         userEntity.setFullName(userDTO.getFullName());
         userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -49,7 +53,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User Not Found");
 
         }
-
         log.info("User Found -> " + fullName);
         return user;
     }
