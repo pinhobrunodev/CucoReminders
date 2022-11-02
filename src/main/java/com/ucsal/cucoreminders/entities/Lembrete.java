@@ -2,10 +2,12 @@ package com.ucsal.cucoreminders.entities;
 
 
 import com.ucsal.cucoreminders.entities.User;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
 
+@ToString
 @Entity
 @Table(name = "tb_lembrete")
 public class Lembrete {

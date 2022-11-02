@@ -9,6 +9,7 @@ import com.ucsal.cucoreminders.entities.Lembrete;
 import com.ucsal.cucoreminders.services.exceptions.ForbiddenException;
 import com.ucsal.cucoreminders.services.exceptions.ResourceNotFoundException;
 import com.ucsal.cucoreminders.services.exceptions.UnauthorizedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class LembreteService {
 
     @Autowired
@@ -38,7 +40,8 @@ public class LembreteService {
     @Transactional
     public void atualizarLembrete(Long lembreteId, AtualizarLembreteDto dto) {
         try {
-            var lembrete = atualizarAuxiliar(lembreteId, dto);
+            var lembrete = atualizarAuxiliar(lembreteId, dto);\
+            log.info("lembrete atualziado =  {}",lembrete.toString());
             lembreteRepository.save(lembrete);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id não encontrado: " + lembreteId);
