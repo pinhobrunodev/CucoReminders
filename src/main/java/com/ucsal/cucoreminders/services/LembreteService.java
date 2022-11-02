@@ -40,7 +40,7 @@ public class LembreteService {
     @Transactional
     public void atualizarLembrete(Long lembreteId, AtualizarLembreteDto dto) {
         try {
-            var lembrete = atualizarAuxiliar(lembreteId, dto);\
+            var lembrete = atualizarAuxiliar(lembreteId, dto);
             log.info("lembrete atualziado =  {}",lembrete.toString());
             lembreteRepository.save(lembrete);
         } catch (EntityNotFoundException e) {
