@@ -3,8 +3,7 @@ package com.ucsal.cucoreminders.dto.lembrete;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ucsal.cucoreminders.entities.Lembrete;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public class InserirLembreteDto {
@@ -18,6 +17,8 @@ public class InserirLembreteDto {
     @Size(min = 5,max = 100,message = "O corpo da mensagem precisa estar entre 5 e 100 letras")
     private String mensagem;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    @NotNull(message =  "Campo requerido")
+    @FutureOrPresent(message = "A data so pode ser presente ou futuro")
     private LocalDateTime dataVencimento;
 
 

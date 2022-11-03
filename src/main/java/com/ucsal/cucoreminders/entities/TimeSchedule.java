@@ -1,11 +1,13 @@
 package com.ucsal.cucoreminders.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
+@ToString
 @Entity
 @Table(name = "tb_time_schedule")
 public class TimeSchedule {

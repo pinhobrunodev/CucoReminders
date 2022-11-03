@@ -19,6 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,9 +40,12 @@ public class LembreteService {
 
     @Transactional
     public void atualizarLembrete(Long lembreteId, AtualizarLembreteDto dto) {
+        var user = authService.authenticated();
+        if (user.getLembretes().stream().noneMatch(x-> Objects.equals(x.getId(), lembreteId))){
+            throw  new ForbiddenException("Você não pode atualizar um lembrete que não é seu.");
+        }
         try {
             var lembrete = atualizarAuxiliar(lembreteId, dto);
-            log.info("lembrete atualziado =  {}",lembrete.toString());
             lembreteRepository.save(lembrete);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id não encontrado: " + lembreteId);
@@ -49,6 +53,7 @@ public class LembreteService {
     }
 
     public void deletarLembrete(Long lembreteId) {
+        log.info("lembreta para ser deletado {}",lembreteId);
         lembreteRepository.findById(lembreteId).orElseThrow(() -> new ResourceNotFoundException("Lembrete não encontrado"));
         try {
             var isFromCurrentUser = authService.authenticated().getLembretes().stream().anyMatch(x -> x.getId() == lembreteId);
