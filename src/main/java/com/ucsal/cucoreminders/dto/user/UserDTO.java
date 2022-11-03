@@ -14,6 +14,6 @@ public class UserDTO {
 
     private String fullName;
     @NotBlank(message = "Campo requerido.")
-    @Size(min = 3,max = 20,message = "A senha precisa estar entre 5 e 20 caracteres")
+    @Size(min = 3,max = 20,message = "A senha precisa estar entre 3 e 20 caracteres")
     private String password;
 }
