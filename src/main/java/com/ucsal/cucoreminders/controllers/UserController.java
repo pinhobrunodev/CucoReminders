@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/cucoreminder/users")
 public class UserController {
@@ -19,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(value = "/salvar")
-    public ResponseEntity<?> salvarUsuario(@RequestBody UserDTO userDTO){
+    public ResponseEntity<?> salvarUsuario(@Valid @RequestBody UserDTO userDTO){
         userService.registrarUsuario(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuário criado com sucesso");
     }
