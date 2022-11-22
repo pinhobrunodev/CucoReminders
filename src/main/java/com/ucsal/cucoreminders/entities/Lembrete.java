@@ -6,11 +6,12 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Comparator;
 
 @ToString
 @Entity
 @Table(name = "tb_lembrete")
-public class Lembrete {
+public class Lembrete implements Comparator<Lembrete> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,5 +73,8 @@ public class Lembrete {
     }
 
 
-
+    @Override
+    public int compare(Lembrete o1, Lembrete o2) {
+        return o1.getTimeSchedule().getDueDate().compareTo(o2.getTimeSchedule().getDueDate());
+    }
 }
